@@ -12,6 +12,10 @@ public class PasswordGenerator{
 			password = password + chars.charAt(index);
 		}
 		
+<<<<<<< HEAD
 		System.out.printf("Password: %s%n",password);
+=======
+		System.out.printf("Password: %s%n", password);
+>>>>>>> a94b5089903c585888e98d1b7ae21a9018d37d11
 	}
 }

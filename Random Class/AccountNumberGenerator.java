@@ -9,6 +9,6 @@ public class AccountNumberGenerator{
 			account = account + random.nextInt(10);
 		}
 		
-		System.out.println("Account Number: " + account);
+		System.out.printf("Account Number: %s%n",account);
 	}
 }

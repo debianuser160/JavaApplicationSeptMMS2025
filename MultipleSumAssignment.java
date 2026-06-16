@@ -22,7 +22,5 @@ public class MultipleSumAssignment {
         } else {
             System.out.println("I still need to learn more in Java");
         }
-
-        scanner.close();
     }
 }

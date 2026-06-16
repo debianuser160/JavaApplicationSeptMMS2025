@@ -11,7 +11,7 @@ public class MethodOverLoading{
 		System.out.println("Enter 4 for exit program");
 		
 		System.out.print("Enter Your Choice: ");
-
+s
 		int choice  = scan.nextInt();
 		
 		switch(choice){

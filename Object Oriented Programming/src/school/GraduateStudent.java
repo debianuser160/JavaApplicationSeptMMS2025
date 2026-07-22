@@ -5,13 +5,14 @@ import java.time.LocalDate;
 
 
 public class GraduateStudent extends Student{
-
+    
     private String finalYearProject;
     
-    public GraduateStudent(int studentID, String firstName, 
+    public GraduateStudent(int studentID, String firstName,
             String lastName, char gender, LocalDate dOB, 
-            String phoneNumber, String finalYearProject) {
-        super(studentID, firstName, lastName, gender, dOB, phoneNumber);
+            String phoneNumber,String finalYearProject) {
+        super(studentID, firstName, lastName, gender, 
+                dOB, phoneNumber);
         this.finalYearProject = finalYearProject;
     }
 
@@ -24,11 +25,9 @@ public class GraduateStudent extends Student{
     }
     
     
-    
     @Override
     public void displayStudentInfo(){
         super.displayStudentInfo();
         System.out.println("Final Year Project: " + finalYearProject);
     }
-    
 }

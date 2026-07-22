@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 
 public class Student {
-    //Properties of Student :)
     private int studentID;
     private String firstName;
     private String lastName;
@@ -13,9 +12,8 @@ public class Student {
     private LocalDate dOB;
     private String phoneNumber;
 
-    public Student(int studentID, String firstName, 
-            String lastName, char gender, LocalDate dOB, 
-            String phoneNumber) {
+    public Student(int studentID, String firstName, String lastName, 
+            char gender, LocalDate dOB, String phoneNumber) {
         this.studentID = studentID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,8 +21,6 @@ public class Student {
         this.dOB = dOB;
         this.phoneNumber = phoneNumber;
     }
-    
-    
 
     public int getStudentID() {
         return studentID;
@@ -66,17 +62,31 @@ public class Student {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumbers) {
-        this.phoneNumber = phoneNumbers;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
+    
+    public void payFees(double amount){
+        System.out.println("Amount paid  " + amount);
+    }
+    
+    public void payFees(double amount, String fullName){
+        System.out.println("Amount Paid  "+ amount);
+        System.out.println("Student Full Name  "+ fullName);
+    }
+    
+    public void payFees(double amount, String fullName, String paymentMethod){
+        System.out.println("Amount Paid  "+ amount);
+        System.out.println("Student Full Name  "+ fullName);
+        System.out.println("Payment Method "+ paymentMethod);
+    }
+    
     
     public void displayStudentInfo(){
-        System.out.println("StudentID: " + studentID);
-        System.out.println("Full Name: " + firstName + " " + lastName);
-        System.out.println("Gender: " + gender);
-        System.out.println("Date of Birth: " + dOB);
-        System.out.println("Phone Number: " + phoneNumber);
+        System.out.println("StudentID: "+ studentID);
+        System.out.println("Full Name: "+ firstName + " " + lastName);
+        System.out.println("Gender: "+ gender);
+        System.out.println("Date Of Birth : "+ dOB);
+        System.out.println("Phone Number : "+ phoneNumber);
     }
-    
-    
 }

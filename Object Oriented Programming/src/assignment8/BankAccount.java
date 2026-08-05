@@ -1,13 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+    
 package assignment8;
 
-/**
- *
- * @author Barak Roberts
- */
-public class BankAccount {
+
+public abstract class BankAccount {
+    String accountHolder;
+    int accountNumber;
+    double balance;
     
+    public BankAccount(String accountHolder, String accountNumber, 
+            double balance){
+        this.accountHolder = accountHolder;
+        this.accountNumber = accountNumber;
+        this.balance = balance;   
+    }
+    
+    void deposit(double amount){
+        
+    }
+    
+    void displayBalance(){
+        System.out.println("Account Holder: " + accountHolder);
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Balance: " + balance);
+    }
+    
+    abstract void withdraw();
+    
+    abstract void calculateInterest();
 }

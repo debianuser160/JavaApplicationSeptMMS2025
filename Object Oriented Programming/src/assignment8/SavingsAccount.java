@@ -1,13 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package assignment8;
 
-/**
- *
- * @author Barak Roberts
- */
-public class SavingsAccount {
+
+public class SavingsAccount extends BankAccount{
+
+    public SavingsAccount(String accountHolder, int accountNumber) {
+        super(accountHolder, accountNumber, balance);
+    }
+
+    @Override
+    void withdraw() {
+        System.out.println(accountHolder + " withdrew Money");
+    }
+
+    @Override
+    void calculateInterest() {
+        double interest = (balance * 0.02 * 2) / 100;
+        System.out.println("Interest calculated: " + interest);
+    }
     
 }

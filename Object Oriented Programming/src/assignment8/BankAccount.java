@@ -4,7 +4,7 @@ package assignment8;
 
 public abstract class BankAccount {
     String accountHolder;
-    int accountNumber;
+    String accountNumber;
     double balance;
     
     public BankAccount(String accountHolder, String accountNumber, 

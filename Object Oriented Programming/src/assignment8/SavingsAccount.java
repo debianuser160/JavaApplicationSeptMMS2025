@@ -4,7 +4,7 @@ package assignment8;
 
 public class SavingsAccount extends BankAccount{
 
-    public SavingsAccount(String accountHolder, int accountNumber) {
+    public SavingsAccount(String accountHolder, String accountNumber, double balance) {
         super(accountHolder, accountNumber, balance);
     }
 
@@ -16,7 +16,7 @@ public class SavingsAccount extends BankAccount{
     @Override
     void calculateInterest() {
         double interest = (balance * 0.02 * 2) / 100;
-        System.out.println("Interest calculated: " + interest);
+        System.out.println(interest);
     }
     
 }

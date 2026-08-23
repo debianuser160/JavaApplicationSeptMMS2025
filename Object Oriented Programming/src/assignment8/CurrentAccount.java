@@ -16,7 +16,7 @@ public class CurrentAccount extends BankAccount{
     @Override
     void calculateInterest() {
         double interest = (balance * 0.02 * 2) / 100;
-        System.out.println("Interest calculated: " + interest);
+        System.out.println(interest);
     }
     
 }

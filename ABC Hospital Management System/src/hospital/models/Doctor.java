@@ -16,9 +16,9 @@ public class Doctor extends Staff{
              char gender, LocalDate dateOfBirth, String phone,
             String email,
             String street, String city,
-            String country, String staffID,
-            String specialization, LocalDate employmentDate, double salary,
-            Department department,String licenseNumber
+            String country, int staffID,
+            LocalDate employmentDate,  double salary,
+            Department department,String specialization,String licenseNumber
             ) {
         super(firstName, lastName, gender, dateOfBirth,
                 phone, email, street, city, country, 
@@ -28,7 +28,7 @@ public class Doctor extends Staff{
     }
 
     
-
+    
     public String getSpecialization() {
         return specialization;
     }
@@ -44,6 +44,8 @@ public class Doctor extends Staff{
     public void setLicenseNumber(String licenseNumber) {
         this.licenseNumber = licenseNumber;
     }
+    
+    
     
     
     

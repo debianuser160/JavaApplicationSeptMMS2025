@@ -15,9 +15,9 @@ public class Nurse extends Staff{
     public Nurse(String firstName, String lastName, char gender,
             LocalDate dateOfBirth, String phone, String email,
             String street, String city, String country,
-            String nursingLicense, String qualification,
-             String staffID, LocalDate employmentDate,
-            double salary,Department department) {
+            int staffID,LocalDate employmentDate,double salary,
+            Department department,String nursingLicense,
+            String qualification) {
         super(firstName,lastName, gender, 
                 dateOfBirth, phone, email, 
                 street, city, country, 

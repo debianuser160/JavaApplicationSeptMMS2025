@@ -11,9 +11,17 @@ public class Appointment {
     private String reason;
     private String status;
     private String notes;
+    
+    public Appointment(){
+        
+    }
 
     public int getId() {
         return id;
+    }
+    
+    public void setId(int id){
+        this.id = id;
     }
 
     public Patient getPatient() {

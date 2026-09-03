@@ -4,7 +4,7 @@ package hospital.models;
 import java.time.LocalDate;
 
 public abstract class Staff extends Person{
-    private String staffID;
+    private int staffID;
     private LocalDate employmentDate;
     private double salary;
     private Department department;
@@ -15,9 +15,9 @@ public abstract class Staff extends Person{
     public Staff(String firstName, String lastName, char gender,
             LocalDate dateOfBirth, String phone, String email, 
             String street, String city, String country,
-            String staffID, LocalDate employmentDate, 
+            int staffID, LocalDate employmentDate, 
             double salary, Department department) {
-        super(firstName, lastName, dateOfBirth, phone, email, 
+        super(firstName, lastName, gender, dateOfBirth, phone, email, 
                 street, city, country);
         this.staffID = staffID;
         this.employmentDate = employmentDate;
@@ -25,10 +25,22 @@ public abstract class Staff extends Person{
         this.department = department;
     }
 
-    public String getStaffID() {
+    public Department getDepartment(){
+        return department;
+    }
+    
+    public void setDepartment(Department department){
+        this.department = department;
+        
+    }
+    
+    public int getStaffID() {
         return staffID;
     }
-
+    
+    public void setStaffID(int staffID){
+        this.staffID = staffID;
+    }
     
 
     public LocalDate getEmploymentDate() {
@@ -47,6 +59,7 @@ public abstract class Staff extends Person{
         this.salary = salary;
     }
     
+   
 
     
     

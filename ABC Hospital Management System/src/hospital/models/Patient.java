@@ -5,37 +5,40 @@ import java.time.LocalDate;
 
 
 public class Patient extends Person{
-    private String patientID;
+    private int patientID;
     private String bloodGroup;
     private String genotype;
     private String allergies;
-    private String emmeregencyContact;
-    private String emmeregencyNumber;
+    private String emergencyContact;
+    private String emergencyPhone;
     
     public Patient(){
         
     }
 
-    public Patient(String patientID, String bloodGroup, String genotype, 
-            String allergies, String emmeregencyContact, 
-            String emmeregencyNumber, String firstName, String lastName, 
+    public Patient(int patientID, String bloodGroup, String genotype, 
+            String allergies, String emeregencyContact, 
+            String emeregencyNumber, String firstName, String lastName,
+            char gender,
             LocalDate dateOfBirth, String phone, String email, String street, 
             String city, String country) {
-        super(firstName, lastName, dateOfBirth, phone, email, street, 
+        super(firstName, lastName, gender, dateOfBirth, phone, email, street, 
                 city, country);
         this.patientID = patientID;
         this.bloodGroup = bloodGroup;
         this.genotype = genotype;
         this.allergies = allergies;
-        this.emmeregencyContact = emmeregencyContact;
-        this.emmeregencyNumber = emmeregencyNumber;
+        this.emergencyContact = emergencyContact;
+        this.emergencyPhone = emergencyPhone;
     }
 
     
 
-    public String getPatientID() {
+    public int getPatientID() {
         return patientID;
     }
+    
+ 
 
     
 
@@ -63,20 +66,24 @@ public class Patient extends Person{
         this.allergies = allergies;
     }
 
-    public String getEmmeregncyContact() {
-        return emmeregencyContact;
+    public String getEmergencyContact() {
+        return emergencyContact;
     }
 
-    public void setEmmeregncyContact(String emmeregncyContact) {
-        this.emmeregencyContact = emmeregncyContact;
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
     }
 
-    public String getEmmeregncyNumber() {
-        return emmeregencyNumber;
+    public String getEmergencyPhone() {
+        return emergencyPhone;
     }
 
-    public void setEmmeregncyNumber(String emmeregncyNumber) {
-        this.emmeregencyNumber = emmeregncyNumber;
+    public void setEmergencyPhone(String emergencyPhone) {
+        this.emergencyPhone = emergencyPhone;
+    }
+    
+       public void setPatientID(int patientID){
+        this.patientID = patientID;
     }
     
    

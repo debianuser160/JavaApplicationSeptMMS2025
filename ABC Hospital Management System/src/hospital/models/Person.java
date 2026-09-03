@@ -7,6 +7,7 @@ public abstract class Person {
     private int id;
     private String firstName;
     private String lastName;
+    private char gender;
     private LocalDate dateOfBirth;
     private String phone;
     private String email;
@@ -18,11 +19,12 @@ public abstract class Person {
         
     }
 
-    public Person(String firstName, String lastName, LocalDate dateOfBirth,
+    public Person(String firstName, String lastName, char gender, LocalDate dateOfBirth,
             String phone, String email, String street, 
             String city, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.phone = phone;
         this.email = email;
@@ -34,8 +36,6 @@ public abstract class Person {
     public int getId() {
         return id;
     }
-
-    
 
     public String getFirstName() {
         return firstName;
@@ -51,6 +51,14 @@ public abstract class Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
     }
 
     public LocalDate getDateOfBirth() {
@@ -100,6 +108,10 @@ public abstract class Person {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    
+
+    
     
     
 }

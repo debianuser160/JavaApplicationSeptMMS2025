@@ -13,7 +13,7 @@ public class Pharmacist extends Staff{
     
     public Pharmacist(String firstName, String lastName, char gender,
             LocalDate dateOfBirth, String phone, String email,
-            String street, String city, String country, String staffID,
+            String street, String city, String country, int staffID,
             LocalDate employmentDate, double salary, Department department,
             String qualification, String licenseNumber){
         super(firstName, lastName, gender, dateOfBirth, phone, email, street, 

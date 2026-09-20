@@ -1,6 +1,6 @@
-package hospital.userview;
+package mainhospital.userview;
 
-import hospital.models.Patient;
+import mainhospital.models.Patient;
 
 import java.util.List;
 

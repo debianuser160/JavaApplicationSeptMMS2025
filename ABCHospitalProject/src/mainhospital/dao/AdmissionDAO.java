@@ -363,4 +363,34 @@ public class AdmissionDAO {
 
         return admission;
     }
+    
+    // =========================================================
+// FIND ADMISSIONS BY PATIENT
+// =========================================================
+
+public List<Admission> findAdmissionsByPatient(int patientId) {
+
+    List<Admission> admissions = new ArrayList<>();
+
+    String sql = baseSelect() + " WHERE a.PatientId = ? ORDER BY a.AdmissionId";
+
+    try {
+        Connection connection = DatabaseConnection.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, patientId);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            admissions.add(mapAdmission(resultSet));
+        }
+
+        connection.close();
+
+    } catch (SQLException e) {
+        System.out.println("Error retrieving admissions for patient: " + e.getMessage());
+    }
+
+    return admissions;
+}
 }

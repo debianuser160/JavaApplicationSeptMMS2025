@@ -14,13 +14,10 @@ import mainhospital.models.Room;
 import mainhospital.models.Bed;
 import mainhospital.models.Admission;
 import mainhospital.models.NurseAssignment;
-
-
-
-
-
-
-
+import mainhospital.models.Diagnosis;
+import mainhospital.models.Treatment;
+import mainhospital.models.MedicalRecord;
+//===================================================
 import mainhospital.services.PatientService;
 import mainhospital.services.DoctorService;
 import mainhospital.services.NurseService;
@@ -33,7 +30,10 @@ import mainhospital.services.RoomService;
 import mainhospital.services.BedService;
 import mainhospital.services.AdmissionService;
 import mainhospital.services.NurseAssignmentService;
-
+import mainhospital.services.DiagnosisService;
+import mainhospital.services.TreatmentService;
+import mainhospital.services.MedicalRecordService;
+//===================================================
 import mainhospital.userview.PatientView;
 import mainhospital.userview.DoctorView;
 import mainhospital.userview.NurseView;
@@ -46,7 +46,10 @@ import mainhospital.userview.RoomView;
 import mainhospital.userview.BedView;
 import mainhospital.userview.AdmissionView;
 import mainhospital.userview.NurseAssignmentView;
-
+import mainhospital.userview.DiagnosisView;
+import mainhospital.userview.TreatmentView;
+import mainhospital.userview.MedicalRecordView;
+//===================================================
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -148,6 +151,19 @@ public class ABCHospitalMainApp {
 
     private static final NurseAssignmentService nurseAssignmentService = new NurseAssignmentService();
     private static final NurseAssignmentView nurseAssignmentView = new NurseAssignmentView();
+    
+    // =========================================================
+    // CLINICAL MANAGEMENT
+    // =========================================================
+    
+    private static final DiagnosisService diagnosisService = new DiagnosisService();
+    private static final DiagnosisView diagnosisView = new DiagnosisView();
+
+    private static final TreatmentService treatmentService = new TreatmentService();
+    private static final TreatmentView treatmentView = new TreatmentView();
+
+    private static final MedicalRecordService medicalRecordService = new MedicalRecordService();
+    private static final MedicalRecordView medicalRecordView = new MedicalRecordView();
 
 
     // =========================================================
@@ -199,13 +215,8 @@ public class ABCHospitalMainApp {
                     break;
                     
                 case 6:
-                    //clinicMenu();
-                    System.out.println(
-                            "Clinical management coming soon"
-                    );
-                    break;
-
-                
+                    clinicalMenu();
+                    break;               
 
                 case 7:
                     //laboratoryMenu();
@@ -5388,7 +5399,376 @@ private static void deleteAssignment() {
     System.out.println(success ? "Assignment deleted successfully." : "Assignment deletion failed.");
 }
 
-//DO NOT INSERT BELOW THIS LINE
+private static void clinicalMenu() {
+
+    while (true) {
+
+        System.out.println();
+        System.out.println("========================================");
+        System.out.println("         CLINICAL MANAGEMENT");
+        System.out.println("========================================");
+        System.out.println("1. Diagnosis Management");
+        System.out.println("2. Treatment Management");
+        System.out.println("3. Medical Records");
+        System.out.println("4. Nurse Records");
+        System.out.println("5. Patient Medical History");
+        System.out.println("0. Back");
+        System.out.println("========================================");
+
+        int choice = readInt("Enter your choice: ");
+
+        switch (choice) {
+            case 1: diagnosisMenu(); break;
+            case 2: treatmentMenu(); break;
+            case 3: medicalRecordMenu(); break;
+            case 4: nurseAssignmentMenu(); break;
+            case 5: viewPatientMedicalHistory(); break;
+            case 0: return;
+            default: System.out.println("Invalid choice.");
+        }
+    }
+}
+
+private static void diagnosisMenu() {
+
+    while (true) {
+
+        System.out.println();
+        System.out.println("========================================");
+        System.out.println("         DIAGNOSIS MANAGEMENT");
+        System.out.println("========================================");
+        System.out.println("1. Add Diagnosis");
+        System.out.println("2. View All Diagnoses");
+        System.out.println("3. View Diagnoses by Patient");
+        System.out.println("4. Find Diagnosis");
+        System.out.println("5. Update Diagnosis");
+        System.out.println("6. Delete Diagnosis");
+        System.out.println("0. Back");
+        System.out.println("========================================");
+
+        int choice = readInt("Enter your choice: ");
+
+        switch (choice) {
+            case 1: addDiagnosis(); break;
+            case 2: viewAllDiagnoses(); break;
+            case 3: viewDiagnosesByPatient(); break;
+            case 4: findDiagnosis(); break;
+            case 5: updateDiagnosis(); break;
+            case 6: deleteDiagnosis(); break;
+            case 0: return;
+            default: System.out.println("Invalid choice.");
+        }
+    }
+}
+
+private static void addDiagnosis() {
+
+    System.out.println();
+    System.out.println("========== ADD DIAGNOSIS ==========");
+
+    int patientId = readInt("Enter Patient ID: ");
+    Patient patient = patientService.getPatientById(patientId);
+
+    if (patient == null) {
+        System.out.println("Patient not found.");
+        return;
+    }
+
+    int doctorId = readInt("Enter Doctor/Staff ID: ");
+    Doctor doctor = doctorService.getDoctorById(doctorId);
+
+    if (doctor == null) {
+        System.out.println("Doctor not found.");
+        return;
+    }
+
+    System.out.print("Condition: ");
+    String conditionName = scanner.nextLine();
+
+    System.out.print("Description: ");
+    String description = scanner.nextLine();
+
+    System.out.print("Notes: ");
+    String notes = scanner.nextLine();
+
+    Diagnosis diagnosis = new Diagnosis();
+    diagnosis.setPatient(patient);
+    diagnosis.setDoctor(doctor);
+    diagnosis.setConditionName(conditionName);
+    diagnosis.setDescription(description);
+    diagnosis.setNotes(notes);
+
+    boolean success = diagnosisService.createDiagnosis(diagnosis);
+
+    System.out.println(success ? "Diagnosis added successfully." : "Failed to add diagnosis.");
+}
+
+private static void viewAllDiagnoses() {
+    diagnosisView.displayDiagnoses(diagnosisService.getAllDiagnoses());
+}
+
+private static void viewDiagnosesByPatient() {
+    int patientId = readInt("Enter Patient ID: ");
+    diagnosisView.displayDiagnoses(diagnosisService.getDiagnosesByPatient(patientId));
+}
+
+private static void findDiagnosis() {
+    int id = readInt("Enter Diagnosis ID: ");
+    diagnosisView.displayDiagnosis(diagnosisService.getDiagnosisById(id));
+}
+
+private static void updateDiagnosis() {
+
+    int id = readInt("Enter Diagnosis ID to update: ");
+    Diagnosis diagnosis = diagnosisService.getDiagnosisById(id);
+
+    if (diagnosis == null) {
+        System.out.println("Diagnosis not found.");
+        return;
+    }
+
+    diagnosisView.displayDiagnosis(diagnosis);
+
+    System.out.print("Condition: ");
+    diagnosis.setConditionName(scanner.nextLine());
+
+    System.out.print("Description: ");
+    diagnosis.setDescription(scanner.nextLine());
+
+    System.out.print("Notes: ");
+    diagnosis.setNotes(scanner.nextLine());
+
+    boolean success = diagnosisService.updateDiagnosis(diagnosis);
+
+    System.out.println(success ? "Diagnosis updated successfully." : "Diagnosis update failed.");
+}
+
+private static void deleteDiagnosis() {
+
+    int id = readInt("Enter Diagnosis ID to delete: ");
+    Diagnosis diagnosis = diagnosisService.getDiagnosisById(id);
+
+    if (diagnosis == null) {
+        System.out.println("Diagnosis not found.");
+        return;
+    }
+
+    diagnosisView.displayDiagnosis(diagnosis);
+
+    System.out.print("Are you sure you want to delete this diagnosis? (Y/N): ");
+    String answer = scanner.nextLine();
+
+    if (!answer.equalsIgnoreCase("Y")) {
+        System.out.println("Delete cancelled.");
+        return;
+    }
+
+    boolean success = diagnosisService.deleteDiagnosis(id);
+
+    System.out.println(success ? "Diagnosis deleted successfully." : "Diagnosis deletion failed.");
+}
+
+private static void treatmentMenu() {
+
+    while (true) {
+
+        System.out.println();
+        System.out.println("========================================");
+        System.out.println("         TREATMENT MANAGEMENT");
+        System.out.println("========================================");
+        System.out.println("1. Add Treatment");
+        System.out.println("2. View All Treatments");
+        System.out.println("3. View Treatments by Patient");
+        System.out.println("4. Find Treatment");
+        System.out.println("5. Update Treatment");
+        System.out.println("6. Delete Treatment");
+        System.out.println("0. Back");
+        System.out.println("========================================");
+
+        int choice = readInt("Enter your choice: ");
+
+        switch (choice) {
+            case 1: addTreatment(); break;
+            case 2: viewAllTreatments(); break;
+            case 3: viewTreatmentsByPatient(); break;
+            case 4: findTreatment(); break;
+            case 5: updateTreatment(); break;
+            case 6: deleteTreatment(); break;
+            case 0: return;
+            default: System.out.println("Invalid choice.");
+        }
+    }
+}
+
+private static void addTreatment() {
+
+    System.out.println();
+    System.out.println("========== ADD TREATMENT ==========");
+
+    int patientId = readInt("Enter Patient ID: ");
+    Patient patient = patientService.getPatientById(patientId);
+
+    if (patient == null) {
+        System.out.println("Patient not found.");
+        return;
+    }
+
+    int doctorId = readInt("Enter Doctor/Staff ID: ");
+    Doctor doctor = doctorService.getDoctorById(doctorId);
+
+    if (doctor == null) {
+        System.out.println("Doctor not found.");
+        return;
+    }
+
+    Treatment treatment = new Treatment();
+    treatment.setPatient(patient);
+    treatment.setDoctor(doctor);
+
+    System.out.print("Link to a Diagnosis? (Y/N): ");
+    String linkAnswer = scanner.nextLine();
+
+    if (linkAnswer.equalsIgnoreCase("Y")) {
+
+        int diagnosisId = readInt("Enter Diagnosis ID: ");
+        Diagnosis diagnosis = diagnosisService.getDiagnosisById(diagnosisId);
+
+        if (diagnosis == null) {
+            System.out.println("Diagnosis not found. Continuing without a link.");
+        } else {
+            treatment.setDiagnosis(diagnosis);
+        }
+    }
+
+    System.out.print("Treatment Name: ");
+    treatment.setTreatmentName(scanner.nextLine());
+
+    System.out.print("Description: ");
+    treatment.setDescription(scanner.nextLine());
+
+    System.out.print("Notes: ");
+    treatment.setNotes(scanner.nextLine());
+
+    boolean success = treatmentService.createTreatment(treatment);
+
+    System.out.println(success ? "Treatment added successfully." : "Failed to add treatment.");
+}
+
+private static void viewAllTreatments() {
+    treatmentView.displayTreatments(treatmentService.getAllTreatments());
+}
+
+private static void viewTreatmentsByPatient() {
+    int patientId = readInt("Enter Patient ID: ");
+    treatmentView.displayTreatments(treatmentService.getTreatmentsByPatient(patientId));
+}
+
+private static void findTreatment() {
+    int id = readInt("Enter Treatment ID: ");
+    treatmentView.displayTreatment(treatmentService.getTreatmentById(id));
+}
+
+private static void updateTreatment() {
+
+    int id = readInt("Enter Treatment ID to update: ");
+    Treatment treatment = treatmentService.getTreatmentById(id);
+
+    if (treatment == null) {
+        System.out.println("Treatment not found.");
+        return;
+    }
+
+    treatmentView.displayTreatment(treatment);
+
+    System.out.print("Treatment Name: ");
+    treatment.setTreatmentName(scanner.nextLine());
+
+    System.out.print("Description: ");
+    treatment.setDescription(scanner.nextLine());
+
+    System.out.print("Notes: ");
+    treatment.setNotes(scanner.nextLine());
+
+    System.out.print("Status: ");
+    treatment.setStatus(scanner.nextLine());
+
+    boolean success = treatmentService.updateTreatment(treatment);
+
+    System.out.println(success ? "Treatment updated successfully." : "Treatment update failed.");
+}
+
+private static void deleteTreatment() {
+
+    int id = readInt("Enter Treatment ID to delete: ");
+    Treatment treatment = treatmentService.getTreatmentById(id);
+
+    if (treatment == null) {
+        System.out.println("Treatment not found.");
+        return;
+    }
+
+    treatmentView.displayTreatment(treatment);
+
+    System.out.print("Are you sure you want to delete this treatment? (Y/N): ");
+    String answer = scanner.nextLine();
+
+    if (!answer.equalsIgnoreCase("Y")) {
+        System.out.println("Delete cancelled.");
+        return;
+    }
+
+    boolean success = treatmentService.deleteTreatment(id);
+
+    System.out.println(success ? "Treatment deleted successfully." : "Treatment deletion failed.");
+}
+
+private static void medicalRecordMenu() {
+
+    while (true) {
+
+        System.out.println();
+        System.out.println("========================================");
+        System.out.println("           MEDICAL RECORDS");
+        System.out.println("========================================");
+        System.out.println("1. Create Medical Record for Patient");
+        System.out.println("0. Back");
+        System.out.println("========================================");
+
+        int choice = readInt("Enter your choice: ");
+
+        switch (choice) {
+            case 1: createMedicalRecord(); break;
+            case 0: return;
+            default: System.out.println("Invalid choice.");
+        }
+    }
+}
+
+private static void createMedicalRecord() {
+
+    int patientId = readInt("Enter Patient ID: ");
+    Patient patient = patientService.getPatientById(patientId);
+
+    if (patient == null) {
+        System.out.println("Patient not found.");
+        return;
+    }
+
+    boolean success = medicalRecordService.createMedicalRecord(patient);
+
+    System.out.println(success ? "Medical record created successfully." : "Failed to create medical record.");
+}
+
+private static void viewPatientMedicalHistory() {
+
+    int patientId = readInt("Enter Patient ID: ");
+
+    MedicalRecord record = medicalRecordService.getFullMedicalHistory(patientId);
+
+    medicalRecordView.displayMedicalRecord(record);
+}
+
+//======================DO NOT INSERT BELOW THIS LINE========================
 }
 
 

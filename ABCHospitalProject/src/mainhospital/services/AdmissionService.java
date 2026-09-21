@@ -120,4 +120,18 @@ public class AdmissionService {
 
         return admissionDAO.update(admission);
     }
+    
+    // =========================================================
+// GET ADMISSIONS BY PATIENT
+// =========================================================
+
+public List<Admission> getAdmissionsByPatient(int patientId) {
+
+    if (patientId <= 0) {
+        System.out.println("Invalid patient ID.");
+        return List.of();
+    }
+
+    return admissionDAO.findAdmissionsByPatient(patientId);
+}
 }

@@ -192,8 +192,21 @@ public class ABCHospitalMainApp {
     // =========================================================
 
     public static void main(String[] args) {
+        // FIRST-TIME USER SETUP
+    if (!setupFirstUser()) {
+        return;
+    }
+
+    // LOGIN
+    User loggedInUser = login();
+
+    if (loggedInUser == null) {
+        return;
+    }
 
         while (true) {
+            
+            
 
             displayMainMenu();
 
@@ -222,9 +235,6 @@ public class ABCHospitalMainApp {
 
                 case 5:
                     admissionMenu();
-                    System.out.println(
-                            "Admission and bed Management coming soon."
-                    );
                     break;
                     
                 case 6:
@@ -277,11 +287,136 @@ public class ABCHospitalMainApp {
             }
         }
     }
+    
+    
+    
+    // =========================================================
+    // FIRST-TIME USER SETUP
+    // =========================================================
+
+    private static boolean setupFirstUser() {
+
+        try {
+            List<User> users = userService.getAllUsers();
+
+            if (users != null && !users.isEmpty()) {
+                return true;
+            }
+
+            while (true) {
+                System.out.println();
+                System.out.println("==========================================");
+                System.out.println("       ABC HOSPITAL FIRST-TIME SETUP");
+                System.out.println("==========================================");
+                System.out.println("No user accounts have been found.");
+                System.out.println("Create the first user account to continue.");
+                System.out.println();
+
+                String username;
+                while (true) {
+                    System.out.print("Create Username: ");
+                    username = scanner.nextLine().trim();
+
+                    if (username.isEmpty()) {
+                        System.out.println("Username is required.");
+                        continue;
+                    }
+                    break;
+                }
+
+                String password;
+                while (true) {
+                    System.out.print("Create Password: ");
+                    password = scanner.nextLine();
+
+                    if (password.trim().isEmpty()) {
+                        System.out.println("Password is required.");
+                        continue;
+                    }
+
+                    System.out.print("Confirm Password: ");
+                    String confirmPassword = scanner.nextLine();
+
+                    if (!password.equals(confirmPassword)) {
+                        System.out.println("Passwords do not match. Please try again.");
+                        continue;
+                    }
+                    break;
+                }
+
+                User firstUser = new User();
+                firstUser.setUsername(username);
+                firstUser.setPasswordHash(password);
+                firstUser.setRole(StaffRole.STAFF);
+                firstUser.setStaff(null);
+                firstUser.setActive(true);
+
+                userService.createUser(firstUser);
+
+                System.out.println();
+                System.out.println("==========================================");
+                System.out.println("       FIRST USER CREATED SUCCESSFULLY");
+                System.out.println("==========================================");
+                System.out.println("Username: " + username);
+                System.out.println("Role: STAFF");
+                System.out.println("Account Status: Active");
+                System.out.println("==========================================");
+                System.out.println("Please use these credentials to log in.");
+                System.out.println();
+
+                return true;
+            }
+
+        } catch (Exception e) {
+            System.out.println();
+            System.out.println("==========================================");
+            System.out.println("          SYSTEM STARTUP ERROR");
+            System.out.println("==========================================");
+            System.out.println("Unable to check user accounts.");
+            System.out.println("Error: " + e.getMessage());
+            System.out.println();
+            return false;
+        }
+    }
 
 
     // =========================================================
     // MAIN MENU
     // =========================================================
+    
+    private static User login() {
+
+    while (true) {
+
+        System.out.println();
+        System.out.println("============================================================");
+        System.out.println("                 ABC HOSPITAL MANAGEMENT SYSTEM");
+        System.out.println("============================================================");
+        System.out.println("                          LOGIN                             ");
+        System.out.println("============================================================");
+
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        User user = userService.login(username, password);
+
+        if (user != null) {
+
+            System.out.println();
+            System.out.println("============================================================");
+            System.out.println("                      LOGIN SUCCESSFUL");
+            System.out.println("============================================================");
+
+            return user;
+        }
+
+        System.out.println();
+        System.out.println("Please try again.");
+    }
+}
 
     private static void displayMainMenu() {
 

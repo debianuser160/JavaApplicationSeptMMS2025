@@ -17,6 +17,7 @@ import mainhospital.models.NurseAssignment;
 import mainhospital.models.Diagnosis;
 import mainhospital.models.Treatment;
 import mainhospital.models.MedicalRecord;
+import mainhospital.models.LaboratoryTest;
 //===================================================
 import mainhospital.services.PatientService;
 import mainhospital.services.DoctorService;
@@ -33,6 +34,7 @@ import mainhospital.services.NurseAssignmentService;
 import mainhospital.services.DiagnosisService;
 import mainhospital.services.TreatmentService;
 import mainhospital.services.MedicalRecordService;
+import mainhospital.services.LaboratoryTestService;
 //===================================================
 import mainhospital.userview.PatientView;
 import mainhospital.userview.DoctorView;
@@ -49,6 +51,7 @@ import mainhospital.userview.NurseAssignmentView;
 import mainhospital.userview.DiagnosisView;
 import mainhospital.userview.TreatmentView;
 import mainhospital.userview.MedicalRecordView;
+import mainhospital.userview.LaboratoryTestView;
 //===================================================
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -164,6 +167,16 @@ public class ABCHospitalMainApp {
 
     private static final MedicalRecordService medicalRecordService = new MedicalRecordService();
     private static final MedicalRecordView medicalRecordView = new MedicalRecordView();
+    
+    // =========================================================
+    // LABORATORY TEST
+    // =========================================================
+
+    private static final LaboratoryTestService laboratoryTestService =
+        new LaboratoryTestService();
+
+    private static final LaboratoryTestView laboratoryTestView =
+        new LaboratoryTestView();
 
 
     // =========================================================
@@ -219,10 +232,7 @@ public class ABCHospitalMainApp {
                     break;               
 
                 case 7:
-                    //laboratoryMenu();
-                    System.out.println(
-                            "Laboratory Management coming soon."
-                    );
+                    laboratoryMenu();
                     break;
 
                 case 8:
@@ -5766,6 +5776,192 @@ private static void viewPatientMedicalHistory() {
     MedicalRecord record = medicalRecordService.getFullMedicalHistory(patientId);
 
     medicalRecordView.displayMedicalRecord(record);
+}
+
+private static void laboratoryMenu() {
+
+    while (true) {
+
+        System.out.println();
+        System.out.println("========================================");
+        System.out.println("         LABORATORY MANAGEMENT");
+        System.out.println("========================================");
+        System.out.println("1. Create Laboratory Test");
+        System.out.println("2. View All Laboratory Tests");
+        System.out.println("3. Find Laboratory Test");
+        System.out.println("4. Update Laboratory Test");
+        System.out.println("5. Delete Laboratory Test");
+        System.out.println("6. View Patient Tests");
+        System.out.println("7. View Pending Tests");
+        System.out.println("8. View Completed Tests");
+        System.out.println("9. Record Test Results");
+        System.out.println("0. Back");
+        System.out.println("========================================");
+
+        int choice = readInt("Enter your choice: ");
+
+        switch (choice) {
+            case 1: createLaboratoryTest(); break;
+            case 2: viewAllLaboratoryTests(); break;
+            case 3: findLaboratoryTest(); break;
+            case 4: updateLaboratoryTest(); break;
+            case 5: deleteLaboratoryTest(); break;
+            case 6: viewPatientTests(); break;
+            case 7: viewPendingTests(); break;
+            case 8: viewCompletedTests(); break;
+            case 9: recordTestResult(); break;
+            case 0: return;
+            default: System.out.println("Invalid choice.");
+        }
+    }
+}
+
+private static void createLaboratoryTest() {
+
+    System.out.println();
+    System.out.println("========== CREATE LABORATORY TEST ==========");
+
+    int patientId = readInt("Enter Patient ID: ");
+    Patient patient = patientService.getPatientById(patientId);
+
+    if (patient == null) {
+        System.out.println("Patient not found.");
+        return;
+    }
+
+    int technicianId = readInt("Enter Technician/Staff ID: ");
+    LaboratoryTechnician technician =
+            laboratoryTechnicianService.getLaboratoryTechnicianById(technicianId);
+
+    if (technician == null) {
+        System.out.println("Laboratory technician not found.");
+        return;
+    }
+
+    System.out.print("Test Name: ");
+    String testName = scanner.nextLine();
+
+    System.out.print("Reference Range: ");
+    String referenceRange = scanner.nextLine();
+
+    LaboratoryTest test = new LaboratoryTest();
+    test.setPatient(patient);
+    test.setTechnician(technician);
+    test.setTestName(testName);
+    test.setReferenceRange(referenceRange);
+
+    boolean success = laboratoryTestService.createLaboratoryTest(test);
+
+    System.out.println(success ? "Laboratory test created successfully." : "Failed to create laboratory test.");
+}
+
+private static void viewAllLaboratoryTests() {
+    laboratoryTestView.displayLaboratoryTests(laboratoryTestService.getAllLaboratoryTests());
+}
+
+private static void findLaboratoryTest() {
+    int id = readInt("Enter Test ID: ");
+    laboratoryTestView.displayLaboratoryTest(laboratoryTestService.getLaboratoryTestById(id));
+}
+
+private static void updateLaboratoryTest() {
+
+    int id = readInt("Enter Test ID to update: ");
+    LaboratoryTest test = laboratoryTestService.getLaboratoryTestById(id);
+
+    if (test == null) {
+        System.out.println("Laboratory test not found.");
+        return;
+    }
+
+    laboratoryTestView.displayLaboratoryTest(test);
+
+    System.out.print("Test Name: ");
+    test.setTestName(scanner.nextLine());
+
+    System.out.print("Reference Range: ");
+    test.setReferenceRange(scanner.nextLine());
+
+    System.out.print("Status: ");
+    test.setStatus(scanner.nextLine());
+
+    boolean success = laboratoryTestService.updateLaboratoryTest(test);
+
+    System.out.println(success ? "Laboratory test updated successfully." : "Laboratory test update failed.");
+}
+
+private static void deleteLaboratoryTest() {
+
+    int id = readInt("Enter Test ID to delete: ");
+    LaboratoryTest test = laboratoryTestService.getLaboratoryTestById(id);
+
+    if (test == null) {
+        System.out.println("Laboratory test not found.");
+        return;
+    }
+
+    laboratoryTestView.displayLaboratoryTest(test);
+
+    System.out.print("Are you sure you want to delete this laboratory test? (Y/N): ");
+    String answer = scanner.nextLine();
+
+    if (!answer.equalsIgnoreCase("Y")) {
+        System.out.println("Delete cancelled.");
+        return;
+    }
+
+    boolean success = laboratoryTestService.deleteLaboratoryTest(id);
+
+    System.out.println(success ? "Laboratory test deleted successfully." : "Laboratory test deletion failed.");
+}
+
+private static void viewPatientTests() {
+
+    int patientId = readInt("Enter Patient ID: ");
+    Patient patient = patientService.getPatientById(patientId);
+
+    if (patient == null) {
+        System.out.println("Patient not found.");
+        return;
+    }
+
+    System.out.println();
+    System.out.println("Tests for " + patient.getFirstName() + " " + patient.getLastName());
+
+    laboratoryTestView.displayLaboratoryTests(
+            laboratoryTestService.getLaboratoryTestsByPatient(patientId)
+    );
+}
+
+private static void viewPendingTests() {
+    laboratoryTestView.displayLaboratoryTests(laboratoryTestService.getPendingLaboratoryTests());
+}
+
+private static void viewCompletedTests() {
+    laboratoryTestView.displayLaboratoryTests(laboratoryTestService.getCompletedLaboratoryTests());
+}
+
+private static void recordTestResult() {
+
+    int id = readInt("Enter Test ID to record result: ");
+    LaboratoryTest test = laboratoryTestService.getLaboratoryTestById(id);
+
+    if (test == null) {
+        System.out.println("Laboratory test not found.");
+        return;
+    }
+
+    laboratoryTestView.displayLaboratoryTest(test);
+
+    System.out.print("Result: ");
+    String result = scanner.nextLine();
+
+    System.out.print("Status (e.g. Completed). Leave blank for Completed: ");
+    String status = scanner.nextLine();
+
+    boolean success = laboratoryTestService.recordTestResult(id, result, status);
+
+    System.out.println(success ? "Result recorded successfully." : "Failed to record result.");
 }
 
 //======================DO NOT INSERT BELOW THIS LINE========================

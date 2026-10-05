@@ -921,6 +921,9 @@ CREATE TABLE Users
         )
 );
 
+INSERT INTO Users (Username, PasswordHash, Role, StaffId, IsActive)
+VALUES ('admin', 'admin123', 'STAFF', 1, NULL);
+
 
 
 create login projecthospital with password = '13579';

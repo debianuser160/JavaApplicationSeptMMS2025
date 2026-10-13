@@ -723,7 +723,11 @@ CREATE TABLE Treatment
 
 
 
---CREATE LAB TEST TABLE
+
+
+
+
+
 CREATE TABLE LaboratoryTest
 (
     LaboratoryTestId INT IDENTITY(1,1) PRIMARY KEY,
@@ -741,7 +745,7 @@ CREATE TABLE LaboratoryTest
 
     CONSTRAINT FK_LaboratoryTest_Technician
         FOREIGN KEY (LaboratoryTechnicianId)
-        REFERENCES Staff(StaffId)
+        REFERENCES LaboratoryTechnician(LaboratoryTechnicianId)
 );
 
 
@@ -920,9 +924,6 @@ CREATE TABLE Users
             )
         )
 );
-
-INSERT INTO Users (Username, PasswordHash, Role, StaffId, IsActive)
-VALUES ('admin', 'admin123', 'STAFF', 1, NULL);
 
 
 
